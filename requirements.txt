@@ -8,3 +8,4 @@ langgraph
 pandas
 python-dotenv
 streamlit
+protobuf==3.20.*
