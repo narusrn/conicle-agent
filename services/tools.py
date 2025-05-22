@@ -44,8 +44,8 @@ def prepare_documents_from_excel(file_path: str, sheet_name: str) -> list[Docume
 
 def get_retriever_from_excel() :
    
-    documents1 = prepare_documents_from_excel("data/openai_result.xlsx", "competencies")
-    documents2 = prepare_documents_from_excel("data/openai_result.xlsx", "roles")
+    documents1 = prepare_documents_from_excel("openai_result.xlsx", "competencies")
+    documents2 = prepare_documents_from_excel("openai_result.xlsx", "roles")
     documents = documents1 + documents2
     vectorstore = Chroma(
         embedding_function=OpenAIEmbeddings(),
