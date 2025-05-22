@@ -16,7 +16,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 def prepare_documents_from_excel(file_path: str, sheet_name: str) -> list[Document]:
-    df = pd.csv(file_path)  # อ่าน sheet 'competencies', 'roles'
+    df = pd.read_csv(file_path)  # อ่าน sheet 'competencies', 'roles'
     
     # สร้าง Document โดยใช้ competency name + description รวมกันเป็น page_content
     documents = []
