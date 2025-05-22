@@ -16,7 +16,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 def prepare_documents_from_excel(file_path: str, sheet_name: str) -> list[Document]:
-    df = pd.read_excel(file_path, sheet_name=sheet_name)  # อ่าน sheet 'competencies', 'roles'
+    df = pd.csv(file_path)  # อ่าน sheet 'competencies', 'roles'
     
     # สร้าง Document โดยใช้ competency name + description รวมกันเป็น page_content
     documents = []
@@ -44,8 +44,8 @@ def prepare_documents_from_excel(file_path: str, sheet_name: str) -> list[Docume
 
 def get_retriever_from_excel() :
    
-    documents1 = prepare_documents_from_excel("openai_result.xlsx", "competencies")
-    documents2 = prepare_documents_from_excel("openai_result.xlsx", "roles")
+    documents1 = prepare_documents_from_excel("https://docs.google.com/spreadsheets/d/1_2BqDT6ipbu_nOguPlXMp0xO0vyBpvXyTTW-0T-_yPY/export?format=csv&gid=0", "competencies")
+    documents2 = prepare_documents_from_excel("https://docs.google.com/spreadsheets/d/1_2BqDT6ipbu_nOguPlXMp0xO0vyBpvXyTTW-0T-_yPY/export?format=csv&gid=164019563", "roles")
     documents = documents1 + documents2
     vectorstore = Chroma(
         embedding_function=OpenAIEmbeddings(),
