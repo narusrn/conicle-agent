@@ -9,3 +9,4 @@ pandas
 python-dotenv
 streamlit
 protobuf==3.20.*
+pysqlite3-binary
