@@ -16,7 +16,7 @@ import logging
 
 logging.getLogger('streamlit').setLevel(logging.ERROR)
 load_dotenv()
-
+os.getenv("OPENAI_API_KEY")
 from services import StreamlitCallbackHandler, initialize_agent
 
 
