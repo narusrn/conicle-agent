@@ -15,32 +15,32 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
-def prepare_documents_from_excel(file_path: str, sheet_name: str) -> list[Document]:
-    df = pd.read_csv(file_path)  # อ่าน sheet 'competencies', 'roles'
-    
-    # สร้าง Document โดยใช้ competency name + description รวมกันเป็น page_content
+def prepare_documents_from_excel(file_path: str, sheet_name: str, group_size: int = 5) -> list[Document]:
+    df = pd.read_excel(file_path, sheet_name=sheet_name)
     documents = []
-    for _, row in df.iterrows():
-        if sheet_name == "competencies":
-            content = f"{row['competency']}\n\n{row['description']}"
-            metadata = {
-                "competency": row["competency"]
-            }
-        elif sheet_name == "roles":
-            content = f"{row['role']}\n\n{row['description']}"
-            metadata = {
-                "role": row["role"]
-            }
-        documents.append(Document(page_content=content, metadata=metadata))
 
-    # ตัดข้อความเป็น chunk
+    # แบ่งเป็นกลุ่ม ๆ ละ group_size
+    for i in range(0, len(df), group_size):
+        chunk = df.iloc[i:i+group_size]
+
+        content_lines = []
+        metadata = {}
+
+        for _, row in chunk.iterrows():
+            if sheet_name == "competencies":
+                content_lines.append(f"{row['competency']}\n{row['description']}")
+            elif sheet_name == "roles":
+                content_lines.append(f"{row['role']}\n{row['description']}")
+
+        content = "\n\n---\n\n".join(content_lines)  # คั่นด้วยเส้นแบ่ง
+        documents.append(Document(page_content=content, metadata={"source_sheet": sheet_name}))
+
+    # ตัด chunk ถ้าจำเป็น
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
+        chunk_size=1000,
+        chunk_overlap=100
     )
-    
     return splitter.split_documents(documents)
-
 
 def get_retriever_from_excel() :
    
