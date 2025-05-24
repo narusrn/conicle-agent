@@ -16,7 +16,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 def prepare_documents_from_excel(file_path: str, sheet_name: str, group_size: int = 5) -> list[Document]:
-    df = pd.read_excel(file_path, sheet_name=sheet_name)
+    df = pd.read_csv(file_path, sheet_name=sheet_name)
     documents = []
 
     # แบ่งเป็นกลุ่ม ๆ ละ group_size
